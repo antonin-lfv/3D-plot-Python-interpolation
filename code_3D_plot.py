@@ -4,6 +4,8 @@
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
 axes = plt.gca()
 
 #size of your matrix data Z : n*n   with the heights
