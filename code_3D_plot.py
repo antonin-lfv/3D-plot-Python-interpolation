@@ -12,6 +12,7 @@ axes = plt.gca()
 #you have to extract the x,y,z data in 3 lists
 
 #for z
+n=len(Z)
 
 def list_z_n(n):
     c=[]
