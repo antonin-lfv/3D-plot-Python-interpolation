@@ -8,69 +8,53 @@ from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 axes = plt.gca()
 
-#size of your matrix data Z : n*n   with the heights
-#you have to extract the x,y,z data in 3 lists
+#shape of your numpy matrix Z : n*n  
 
 #for z
-n=len(Z)
-
-def list_z_n(n):
-    c=[]
-    for i in range (n):
-        for j in range (n):
-            c.append(Z[i][j])
-    M = np.asarray(c)
-    return M.reshape((n,n))
+n=len(list(Z))
     
-def zprime_n(n):
+def zprime():
     l=[]
     for j in reversed(range (n)):
         for i in reversed(range (n)):
-                l.append((list_z_n(n)[i])[j])
+                l.append((Z[i])[j])
     return l
 
-#for x
+#for x and y
 
-def list_x_n(n):
-    c = [i for i in reversed(range (0,n))]
-    return c
+def list_coord():
+    return([i for i in reversed(range (0,n))])
 
-#for y
+#for x,y,z
 
-def list_y_n(n):
-    c = [i for i in reversed(range (0,n))]
-    return c
-
-#for the three
-
-def data_array_n(n): 
+def data_array(): 
     c = []
     for i in range (n):
         for j in range (n):
                 c.append(i)
                 c.append(j)
-                c.append(list_z_n(n)[i][j])
+                c.append(Z[i][j])
     M = np.asarray(c)
     M = M.reshape((n*n,3))
     return(M)
 
 #by linear interpolation
 
-def graph_3D_n(n):
+def graph_3D_line():
     #create the 3D plot
     plt.rcParams['legend.fontsize'] = 10
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     #data
-    xp = list_x_n(n)
-    yl = list_y_n(n)
+    xp = list_coord()
+    yl = list_coord()
     #make the plot
     for i in range (0,n): 
         yp = [i for k in (range (0,n))]
-        zi = list_z_n(n)[i] 
+        zi = Z[i] 
         for i in reversed(range(0,n)): 
             xl = [i for k in (range (0,n))]
-            ziprime = zprime_n(n)[(i*n):(i*n+n)]
+            ziprime = zprime()[(i*n):(i*n+n)]
             plt.plot(xp, yp, zi,'blue')
             plt.plot(xl,yl, ziprime,'red')
     plt.xlabel("x")
@@ -83,12 +67,12 @@ def graph_3D_n(n):
     
 #with colours
 
-def gr_3D_color_n(n):
+def graph_3D_color():
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    Xs = data_array_n(n)[:,0]
-    Ys = data_array_n(n)[:,1]
-    Zs = data_array_n(n)[:,2]
+    Xs = data_array()[:,0]
+    Ys = data_array()[:,1]
+    Zs = data_array()[:,2]
     surf = ax.plot_trisurf(Xs, Ys, Zs, cmap=cm.jet, linewidths=1)
     #cmap='viridis', edgecolor='none')
     fig.colorbar(surf)
@@ -102,15 +86,9 @@ def gr_3D_color_n(n):
     
 #Z example:
 
-Z=[[0, 0, 0, 1, 2, 2, 2, 3, 4, 5, 5, 5, 5, 5, 4, 4, 5, 4, 4, 4, 4, 3, 3, 2, 2],
- [0, 1, 1, 2, 2, 3, 3, 3, 4, 5, 6, 6, 6, 5, 5, 5, 6, 5, 5, 5, 4, 4, 3, 3, 3],
- [1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 4, 4, 3, 3],
- [1, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 6, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 3],
- [2, 2, 3, 3, 4, 4, 4, 4, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7, 6, 6, 5, 5, 5, 4, 4],
- [2, 2, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 4],
- [2, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 7, 7, 7, 7, 7, 6, 5, 5, 4],
- [3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 8, 8, 9, 8, 8, 8, 7, 7, 7, 7, 6, 6, 5, 5],
- [3, 4, 4, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 5],
- [3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 10, 9, 8, 8, 7, 7, 7, 7, 6, 6, 6, 5]]   
+Z= np.array([[7.894736842105264, 7.894736842105264, 7.894736842105264, 8.947368421052632, 8.947368421052632, 10.0, 10.0, 10.0, 10.0, 10.0], [6.842105263157896, 6.842105263157896, 7.894736842105264, 8.947368421052632, 8.947368421052632, 8.947368421052632, 10.0, 10.0, 10.0, 10.0], [5.789473684210527, 5.789473684210527, 5.789473684210527, 6.842105263157896, 6.842105263157896, 7.894736842105264, 8.947368421052632, 10.0, 10.0, 10.0], [5.789473684210527, 5.789473684210527, 5.789473684210527, 5.789473684210527, 5.789473684210527, 6.842105263157896, 6.842105263157896, 8.947368421052632, 10.0, 10.0], [3.6842105263157894, 4.736842105263158, 4.736842105263158, 5.789473684210527, 5.789473684210527, 5.789473684210527, 6.842105263157896, 7.894736842105264, 8.947368421052632, 10.0], [3.6842105263157894, 3.6842105263157894, 3.6842105263157894, 3.6842105263157894, 4.736842105263158, 5.789473684210527, 5.789473684210527, 6.842105263157896, 8.947368421052632, 8.947368421052632], [2.6315789473684212, 2.6315789473684212, 2.6315789473684212, 3.6842105263157894, 3.6842105263157894, 5.789473684210527, 5.789473684210527, 6.842105263157896, 8.947368421052632, 8.947368421052632], [1.5789473684210527, 1.5789473684210527, 2.6315789473684212, 2.6315789473684212, 3.6842105263157894, 4.736842105263158, 5.789473684210527, 5.789473684210527, 7.894736842105264, 7.894736842105264], [0.5263157894736843, 0.5263157894736843, 1.5789473684210527, 2.6315789473684212, 3.6842105263157894, 4.736842105263158, 5.789473684210527, 5.789473684210527, 6.842105263157896, 7.894736842105264], [-0.5263157894736843, 0.5263157894736843, 1.5789473684210527, 2.6315789473684212, 3.6842105263157894, 3.6842105263157894, 5.789473684210527, 5.789473684210527, 6.842105263157896, 7.894736842105264]])
+
+
+
  
  
