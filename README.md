@@ -4,3 +4,7 @@
 
 The n*n Z matrix can contain heights of water for example, to plot the submarine surface.
 If you have any question, tel me!
+
+## Linear interpolation
+
+<img width="1177" alt="interpolation_linéaire" src="https://user-images.githubusercontent.com/63207451/92334896-65152f00-f092-11ea-9b81-fd24accc9d89.png">
