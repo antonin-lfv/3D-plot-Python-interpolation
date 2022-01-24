@@ -39,9 +39,10 @@ if __name__ == "__main__":
 
 ```
 
+<p align="center">
 <img width="1177" alt="interpolation_linéaire" src="https://user-images.githubusercontent.com/63207451/92334896-65152f00-f092-11ea-9b81-fd24accc9d89.png">
-<img width="465" alt="Capture d’écran 2022-01-24 à 19 39 18" src="https://user-images.githubusercontent.com/63207451/150843744-92841d9a-b79c-46c7-b84e-ff108201280c.png">
-
+<img width="430" alt="Capture d’écran 2022-01-24 à 19 40 00" src="https://user-images.githubusercontent.com/63207451/150843835-5f25643b-f874-4226-8211-cfd418493179.png">
+</p>
 
 <br/>
 
