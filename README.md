@@ -29,11 +29,6 @@ if __name__ == "__main__":
 <img width="1151" alt="Capture d’écran 2022-01-25 à 13 46 22" src="https://user-images.githubusercontent.com/63207451/150979750-7bf81912-58fc-4244-a0ff-345aef5cea04.png">
 </p>
 
-<p align="center">
-<img width="1177" alt="interpolation_linéaire" src="https://user-images.githubusercontent.com/63207451/92334896-65152f00-f092-11ea-9b81-fd24accc9d89.png">
-<img width="430" alt="Capture d’écran 2022-01-24 à 19 40 00" src="https://user-images.githubusercontent.com/63207451/150843835-5f25643b-f874-4226-8211-cfd418493179.png">
-</p>
-
 <br/>
 
 <p align="center">
