@@ -1,6 +1,6 @@
 # 3D-surface-plot-Python
 
-The *n*m* Z matrix can contain heights of water for example, to plot the submarine surface.
+The <b>n*m</b> Z matrix can contain heights of water for example, to plot the submarine surface.
 If you have any question, tell me!
 
 ## First setp
