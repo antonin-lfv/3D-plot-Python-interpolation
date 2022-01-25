@@ -1,16 +1,17 @@
-""" 3D plot with matplotlib """
-import numpy
-from matplotlib.ticker import MaxNLocator
+""" 3D plot with plotly """
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
-mpl.use('macosx')
+import plotly.graph_objects as go
+from plotly.offline import plot
+import pandas as pd
+from plotly.subplots import make_subplots
 
-class Interpolator():
+
+class Interpolator:
     def __init__(self, matrix):
-        self.matrix = matrix
+        if isinstance(matrix, pd.DataFrame):
+            self.matrix = matrix.values
+        else:
+            self.matrix = matrix
         self.row_mat, self.col_mat = self.matrix.shape
 
     def __str__(self):
@@ -37,12 +38,10 @@ class Interpolator():
         M = M.reshape((self.row_mat * self.col_mat, 3))
         return M
 
-    def graph_3D_line(self):
+    def graph_3D_line(self, display=True):
         """ With lines """
         # create the 3D plot
-        plt.rcParams['legend.fontsize'] = 10
-        fig = plt.figure('Line plot')
-        ax = fig.add_subplot(projection='3d')
+        fig = go.Figure()
         # data
         xp = [i for i in reversed(range(0, self.col_mat))]
         yl = [i for i in reversed(range(0, self.row_mat))]
@@ -53,25 +52,62 @@ class Interpolator():
             for j in reversed(range(0, self.col_mat)):
                 xl = [j] * self.row_mat
                 ziprime = self.__zprime()[(j * self.row_mat):(j * self.row_mat + self.row_mat)]
-                plt.plot(xp, yp, zi, 'blue', linewidth=1)
-                plt.plot(xl, yl, ziprime, 'red', linewidth=1)
-        plt.xlabel("x")
-        plt.ylabel("y")
-        plt.xlim(0, self.col_mat)
-        plt.ylim(0, self.row_mat)
-        return fig
+                fig.add_scatter3d(x=xp, y=yp, z=zi, line=dict(width=1, color='blue'), mode='lines', showlegend=False)
+                fig.add_scatter3d(x=xl, y=yl, z=ziprime, line=dict(width=1, color='red'), mode='lines',
+                                  showlegend=False)
+        if display:
+            plot(fig)
+        else:
+            return fig
 
-    def graph_3D_color(self):
+    def graph_3D_color(self, display=True):
         """ With Gradient color """
-        fig = plt.figure('Gradient color')
-        ax = fig.add_subplot(projection='3d')
-        Xs = self.__data_array()[:, 0]
-        Ys = self.__data_array()[:, 1]
-        Zs = self.__data_array()[:, 2]
-        surf = ax.plot_trisurf(Xs, Ys, Zs, cmap=cm.ocean, linewidths=1, edgecolor='none')
-        fig.colorbar(surf)
-        ax.xaxis.set_major_locator(MaxNLocator(5))
-        ax.yaxis.set_major_locator(MaxNLocator(6))
-        ax.zaxis.set_major_locator(MaxNLocator(5))
-        fig.tight_layout()
-        return fig
+        fig = go.Figure()
+        fig.add_surface(z=self.matrix, colorscale='earth')
+        fig.update_traces(contours_z=dict(show=True,
+                                          usecolormap=True,
+                                          highlightcolor="limegreen",
+                                          project_z=True))
+        fig.update_layout(
+            template='simple_white',
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+        )
+        if display:
+            plot(fig)
+        else:
+            return fig
+
+    def subplot_line_gradient(self):
+        """ Both gradient and lines """
+        fig = make_subplots(
+            rows=1, cols=2,
+            specs=[[{"type": "surface"}, {"type": "surface"}]],
+            subplot_titles=['Linear interpolation', 'Gradient surface plot']
+        )
+
+        # data first plot
+        xp = [i for i in reversed(range(0, self.col_mat))]
+        yl = [i for i in reversed(range(0, self.row_mat))]
+        # make the plot
+        for i in range(0, self.row_mat):
+            yp = [i] * self.col_mat
+            zi = self.matrix[i]
+            for j in reversed(range(0, self.col_mat)):
+                xl = [j] * self.row_mat
+                ziprime = self.__zprime()[(j * self.row_mat):(j * self.row_mat + self.row_mat)]
+                fig.add_scatter3d(x=xp, y=yp, z=zi, line=dict(width=1, color='blue'), mode='lines', showlegend=False, row=1, col=1)
+                fig.add_scatter3d(x=xl, y=yl, z=ziprime, line=dict(width=1, color='red'), mode='lines',
+                                  showlegend=False, row=1, col=1)
+
+        fig.add_surface(z=self.matrix, colorscale='earth', showscale=False, row=1, col=2)
+        fig.update_traces(contours_z=dict(show=True,
+                                          usecolormap=True,
+                                          highlightcolor="limegreen",
+                                          project_z=True), row=1, col=2)
+        fig.update_layout(
+            template='simple_white',
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+        )
+        plot(fig)
