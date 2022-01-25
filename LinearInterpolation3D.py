@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
+mpl.use('macosx')
 
 class Interpolator():
     def __init__(self, matrix):
@@ -40,7 +41,7 @@ class Interpolator():
         """ With lines """
         # create the 3D plot
         plt.rcParams['legend.fontsize'] = 10
-        fig = plt.figure()
+        fig = plt.figure('Line plot')
         ax = fig.add_subplot(projection='3d')
         # data
         xp = [i for i in reversed(range(0, self.col_mat))]
@@ -52,28 +53,25 @@ class Interpolator():
             for j in reversed(range(0, self.col_mat)):
                 xl = [j] * self.row_mat
                 ziprime = self.__zprime()[(j * self.row_mat):(j * self.row_mat + self.row_mat)]
-                plt.plot(xp, yp, zi, 'blue')
-                plt.plot(xl, yl, ziprime, 'red')
+                plt.plot(xp, yp, zi, 'blue', linewidth=1)
+                plt.plot(xl, yl, ziprime, 'red', linewidth=1)
         plt.xlabel("x")
         plt.ylabel("y")
         plt.xlim(0, self.col_mat)
         plt.ylim(0, self.row_mat)
-        plt.title("linear interpolation")
-        plt.show()
+        return fig
 
     def graph_3D_color(self):
         """ With Gradient color """
-        fig = plt.figure()
+        fig = plt.figure('Gradient color')
         ax = fig.add_subplot(projection='3d')
         Xs = self.__data_array()[:, 0]
         Ys = self.__data_array()[:, 1]
         Zs = self.__data_array()[:, 2]
-        surf = ax.plot_trisurf(Xs, Ys, Zs, cmap=cm.jet, linewidths=1)
-        # cmap='viridis', edgecolor='none')
+        surf = ax.plot_trisurf(Xs, Ys, Zs, cmap=cm.ocean, linewidths=1, edgecolor='none')
         fig.colorbar(surf)
         ax.xaxis.set_major_locator(MaxNLocator(5))
         ax.yaxis.set_major_locator(MaxNLocator(6))
         ax.zaxis.set_major_locator(MaxNLocator(5))
         fig.tight_layout()
-        ax.set_title('linear interpolation')
-        plt.show()
+        return fig
