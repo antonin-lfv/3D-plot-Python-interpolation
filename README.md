@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
 <br>
 <p align="center">
-![Capture d’écran 2022-01-26 à 00 53 57](https://user-images.githubusercontent.com/63207451/151079703-79e25144-c0bf-47fc-8bd5-fb2c6c142062.png)
+    <img src="https://user-images.githubusercontent.com/63207451/151079703-79e25144-c0bf-47fc-8bd5-fb2c6c142062.png">
 </p>
 
 <br/>
