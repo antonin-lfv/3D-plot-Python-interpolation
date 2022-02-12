@@ -1,5 +1,5 @@
 ## Usage example
-from Interpolation_3D.LinearInterpolation3D import *
+from LinearInterpolation3D import *
 import pandas as pd
 
 if __name__ == "__main__":
