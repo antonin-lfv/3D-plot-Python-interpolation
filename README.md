@@ -6,10 +6,12 @@ If you have any question, tell me!
 ## First setp
 
 ```py
-from Interpolation_3D.LinearInterpolation3D import *
+from LinearInterpolation3D import *
 import pandas as pd
+import numpy as np
 
 if __name__ == "__main__":
+    z_data = np.fromfunction(lambda x, y: np.sin(x/5)+np.cos(y/5)+0.1, (20, 20))
     mon_interpolateur = Interpolator(matrix=z_data)
     # With color gradient (unique plot)
     f1 = mon_interpolateur.graph_3D_color(display=False)  # display=True to juste plot this figure
